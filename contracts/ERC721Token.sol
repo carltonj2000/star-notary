@@ -1,6 +1,6 @@
 pragma solidity ^0.4.24; 
 
-import './ERC721.sol';
+import "./ERC721.sol";
 
 contract ERC721Token is ERC721 {
 
@@ -10,9 +10,12 @@ contract ERC721Token is ERC721 {
     mapping(address => mapping(address => bool)) ownerToOperator;
 
     modifier hasPermission(address _caller, uint256 _tokenId) { 
-        require(_caller == tokenToOwner[_tokenId] 
-        || getApproved(_tokenId) == _caller 
-        || isApprovedForAll(tokenToOwner[_tokenId], _caller));
+        require(
+            _caller == tokenToOwner[_tokenId] ||
+            getApproved(_tokenId) == _caller ||
+            isApprovedForAll(tokenToOwner[_tokenId], _caller),
+            "does not have permission"
+        );
         _;
     }
 
